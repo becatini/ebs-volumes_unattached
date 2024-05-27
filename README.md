@@ -1,4 +1,12 @@
-# Script to List all EBS Volumes Unattached
+# List all EBS Volumes Unattached
+
+This repository contains the code to list all EBS volumes unattached. 
+
+## The Tool
+
+This bash script will read all AWS accounts and regions assigned to the AWS Organizations, then create a csv file which contains all unnatached EBS volumes.
+
+## Tool Diagram
 
 ```mermaid
 graph TD
