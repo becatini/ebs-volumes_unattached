@@ -4,7 +4,7 @@ This repository contains the code to list all EBS volumes unattached.
 
 ## The Tool
 
-This bash script will read all AWS accounts and regions assigned to the AWS Organizations, then create a csv file which contains all unnatached EBS volumes.
+This bash script will read all AWS accounts and regions assigned to the AWS Organizations, then create a csv file which contains all unatached EBS volumes.
 
 ## Tool Diagram
 
