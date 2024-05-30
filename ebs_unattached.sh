@@ -10,14 +10,15 @@ get_date_time() {
 }
 
 # Global variables
+dir="~/reports"
 current_date=$(date +%Y-%m-%d)
-full_log="full_log_${current_date}.txt"
-output_file="ebs_unnatached.csv"
+full_log="${dir}/full_log_${current_date}.txt"
+output_file="${dir}/ebs_unnatached_${current_date}.csv"
+account_output="${dir}/accounts.txt"
 
-
->full_log_${current_date}.txt
->accounts.txt
->ebs_unnatached.csv
+> ${full_log}
+> ${account_output}
+> ${output_file}
 
 # Write the header to the output file
 echo "Account,Region,Volume ID,Volume Size,Volume Type" > "${output_file}"
@@ -45,9 +46,9 @@ for account in $(aws organizations list-accounts --query 'Accounts[?Status==`ACT
 
 	# Check if account role can be assumed
     if [ -z "${assumed_role}" ]; then
-        echo "${account} NOK" >> accounts.txt
+        echo "${account} NOK" >> ${account_output}
     else
-        echo "${account} OK" >> accounts.txt
+        echo "${account} OK" >> ${account_output}
 	fi
 	
 	# Get AWS regions
