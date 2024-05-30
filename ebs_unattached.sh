@@ -10,7 +10,7 @@ get_date_time() {
 }
 
 # Global variables
-dir="~/reports"
+dir="$HOME/reports"
 current_date=$(date +%Y-%m-%d)
 full_log="${dir}/full_log_${current_date}.txt"
 output_file="${dir}/ebs_unnatached_${current_date}.csv"
