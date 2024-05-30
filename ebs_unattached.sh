@@ -4,6 +4,8 @@
 
 #!/bin/bash
 
+set -x > $HOME/reports/text.txt
+
 # Function - get current date and time
 get_date_time() {
     date +%Y-%m-%d" "%H:%M
