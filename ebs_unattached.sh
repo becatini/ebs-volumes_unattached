@@ -16,6 +16,7 @@ full_log="${dir}/full_log_${current_date}.txt"
 output_file="${dir}/ebs_unnatached_${current_date}.csv"
 account_output="${dir}/accounts.txt"
 
+# Clean up files
 > ${full_log}
 > ${account_output}
 > ${output_file}
