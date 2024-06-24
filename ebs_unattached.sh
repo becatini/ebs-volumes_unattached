@@ -89,3 +89,64 @@ for account in $(aws organizations list-accounts --query 'Accounts[?Status==`ACT
     unset AWS_SECRET_ACCESS_KEY
     unset AWS_SESSION_TOKEN
 done
+
+##################################################
+# Send an email email
+##################################################
+
+# Set variables
+source_email="cloudops@centricsoftware.com"
+destination_email="fabiano.becatini@centricsoftware.com"
+subject="Unattached EBS Volumes List"
+attachment_file="ebs_unattached_${current_date}.csv"
+raw_message_file="${dir}/raw_message.txt"
+
+cd $dir
+
+# Define the multi-line plain text body
+body_text=$(cat <<EOF
+Hello,
+This is the list of unattached EBS volumes generated on $current_date.
+EOF
+)
+# Define the multi-line HTML text body
+body_html="<p>Hello,</p><p>This is the list of unattached EBS volumes generated on $current_date!</p><br><br>"
+
+# Create the raw email
+cat << EOF > $raw_message_file
+From: $source_email
+To: $destination_email
+Subject: $subject
+MIME-Version: 1.0
+Content-Type: multipart/alternative; boundary="----=_Part_0_1718931086_d0671285272b51cb7594b7b4"
+
+------=_Part_0_1718931086_d0671285272b51cb7594b7b4
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+
+$body_text
+
+------=_Part_0_1718931086_d0671285272b51cb7594b7b4
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+
+$body_html
+
+------=_Part_0_1718931086_d0671285272b51cb7594b7b4
+Content-Type: text/csv; name="$attachment_file"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="$attachment_file"
+
+$(base64 $attachment_file)
+------=_Part_0_1718931086_d0671285272b51cb7594b7b4--
+EOF
+
+# Encode the data into base64 format
+# '-w 0' option specifies that the output should not be wrapped, meaning the base64 encoded output will be a single continuous line without any line breaks.
+message=$(cat $raw_message_file | base64 -w 0)
+
+# Send the raw email using AWS SES
+aws ses send-raw-email --raw-message '{"Data":"'${message}'"}' --region us-west-2 --profile master
+
+# Delete temp files
+rm -rf aws.txt raw_message.txt
