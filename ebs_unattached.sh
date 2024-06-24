@@ -13,7 +13,7 @@ get_date_time() {
 dir="$HOME/reports"
 current_date=$(date +%Y-%m-%d)
 full_log="${dir}/full_log_${current_date}.txt"
-output_file="${dir}/ebs_unnatached_${current_date}.csv"
+output_file="${dir}/ebs_unattached_${current_date}.csv"
 account_output="${dir}/accounts.txt"
 
 # Clean up files
