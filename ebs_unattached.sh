@@ -95,8 +95,8 @@ done
 ##################################################
 
 # Set variables
-source_email="cloudops@centricsoftware.com"
-destination_email="fabiano.becatini@centricsoftware.com"
+source_email="$source_email"
+destination_email="$destination_email"
 subject="Unattached EBS Volumes List"
 attachment_file="ebs_unattached_${current_date}.csv"
 raw_message_file="${dir}/raw_message.txt"
